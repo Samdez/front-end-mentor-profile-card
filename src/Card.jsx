@@ -2,31 +2,63 @@ import styled from "styled-components";
 import profile from './img/image-victor.jpg';
 import background from './img/bg-pattern-card.svg'
 import Stat from "./Stat";
+import { motion } from "framer-motion";
 
 const Card = () => {
+
+  const fade = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        duration: 1,
+        when: 'beforeChildren'
+      }
+    },
+  };
+  const slideUp = {
+    hidden: { y: '15vh' },
+    visible: { 
+      y: 0,
+      transition: {
+        ease: 'easeOut',
+        staggerChildren: 0.5,
+        when: 'beforeChildren'
+      } 
+    }
+  }
+
+
   return (
-    <StyledCard>
+    <StyledCard variants={fade} initial='hidden' animate='visible'>
       <StyledCardBackground />
       <StyledInfos>
-        <img src={profile} alt="profile"/>
+        <img src={profile} alt="profile" />
         <h2>Victor Crest <span>26</span></h2>
         <h3>London</h3>
       </StyledInfos>
-      <StyledStat>
-        <Stat number='80K' type='followers'/>
-        <Stat number='803K'type='likes'/>
-        <Stat number='1.4K' type='photos'/>
+      <StyledStat variants={slideUp}>
+        <motion.div variants={fade}>
+        <Stat number='80K' type='followers'  />
+        </motion.div>
+        <motion.div variants={fade}>
+        <Stat number='803K' type='likes' />
+        </motion.div>
+        <motion.div variants={fade}>
+        <Stat number='1.4K' type='photos' />
+        </motion.div>
       </StyledStat>
     </StyledCard>
   );
 }
 
-const StyledCard = styled.div`
+const StyledCard = styled(motion.div)`
   height: 58vh;
   width: 500px;
   background-color: white;
   border-radius: 20px;
   display: block;
+  overflow: hidden;
 `;
 
 const StyledCardBackground = styled.div`
@@ -62,7 +94,7 @@ const StyledInfos = styled.div`
   }
 `;
 
-const StyledStat = styled.div`
+const StyledStat = styled(motion.div)`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
